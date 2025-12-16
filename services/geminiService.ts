@@ -1,18 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { DocumentItem, RiskItem } from '../types';
 
-let ai: GoogleGenAI | null = null;
-
-const getAI = () => {
-  if (!ai) {
-    const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      throw new Error("API Key do Gemini não configurada. Crie um arquivo .env com GEMINI_API_KEY=sua_chave");
-    }
-    ai = new GoogleGenAI({ apiKey });
-  }
-  return ai;
-};
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateStrategicAnalysis = async (
   risks: RiskItem[],
@@ -53,7 +42,7 @@ export const generateStrategicAnalysis = async (
   `;
 
   try {
-    const response = await getAI().models.generateContent({
+    const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
