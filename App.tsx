@@ -299,7 +299,7 @@ const App: React.FC = () => {
     <div className="space-y-6 animate-fade-in pb-10">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Painel Estratégico de Riscos</h2>
+          <h2 className="text-2xl font-bold text-slate-800">Painel Estratégico de Riscos e Complience</h2>
           <p className="text-slate-500 text-sm">Visualizando dados para: <span className="font-semibold text-blue-700">{selectedUnit === 'Consolidado' ? 'Visão Consolidada' : selectedUnit}</span></p>
         </div>
         
