@@ -90,6 +90,8 @@ interface GovernanceState {
   salvar: <C extends ColecaoCadastro>(colecao: C, item: ItemDe<C>, entidade: Entidade, rotulo: string, permissao: Permissao) => void;
   excluir: <C extends ColecaoCadastro>(colecao: C, id: ID, entidade: Entidade, rotulo: string, permissao: Permissao) => void;
   salvarConfiguracoes: (c: GovernanceDB['configuracoes']) => void;
+  /** Reaplica a matriz vigente a todos os registros; retorna quantos mudaram de nível. */
+  recalcularRiscos: () => number;
   reconhecerAlerta: (chave: string) => void;
   restaurarDemonstracao: () => void;
 
@@ -340,6 +342,26 @@ export const GovernanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     );
   }, [commit, exigir, usuario.id]);
 
+  const recalcularRiscos = useCallback((): number => {
+    exigir('configuracoes.gerenciar');
+    const d = dbRef.current;
+    const audit: EventoAuditoria[] = [];
+    const registrosUso = d.registrosUso.map(r => {
+      const ferramenta = d.ferramentas.find(f => f.id === r.ferramentaId);
+      if (!ferramenta) return r;
+      const risco = calcularRisco({ ferramenta, dados: r.dados, contexto: r.contexto }, d.configuracoes.pesosRisco);
+      if (risco.nivelSugerido === r.risco.nivelSugerido && risco.pontuacao === r.risco.pontuacao) return r;
+      audit.push(criarEvento({
+        usuarioId: usuario.id, entidade: 'Registro de uso', registroId: r.id, registroRotulo: rotuloRegistro(r), acao: 'ALTERAÇÃO',
+        alteracoes: [{ campo: 'pontuação de risco', anterior: r.risco.pontuacao, novo: risco.pontuacao }, { campo: 'nível de risco sugerido', anterior: r.risco.nivelSugerido, novo: risco.nivelSugerido }],
+        departamentoId: deptoDe(d, r.colaboradorId),
+      }));
+      return { ...r, risco };
+    });
+    if (audit.length) commit({ ...d, registrosUso }, audit, [{ tipo: 'uso.atualizado', dados: { recalculados: audit.length } }]);
+    return audit.length;
+  }, [commit, exigir, usuario.id]);
+
   const reconhecerAlerta = useCallback((chave: string) => {
     exigir('alerta.reconhecer');
     const d = dbRef.current;
@@ -403,7 +425,7 @@ export const GovernanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     alertas, nav, navegar,
     submeterRegistro, atualizarRegistro, ajustarRisco, alterarStatusRegistro,
     avancarEtapa, decidir, homologar, registrarRevisao,
-    salvar, excluir, salvarConfiguracoes, reconhecerAlerta, restaurarDemonstracao,
+    salvar, excluir, salvarConfiguracoes, recalcularRiscos, reconhecerAlerta, restaurarDemonstracao,
     toasts, notificar,
   };
 

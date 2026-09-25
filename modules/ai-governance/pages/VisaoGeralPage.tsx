@@ -3,10 +3,11 @@
  * Objetivo: a Diretoria entende o cenário de governança da IA em poucos segundos.
  * Ordem de leitura: pilares → pontos de atenção → indicadores → gráficos.
  */
-import React, { useMemo } from 'react';
-import { ArrowRight, Download, Users, Building2, Bot, ClipboardList, BadgeCheck, Hourglass, ShieldAlert, AlertTriangle, CalendarClock, Siren } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { ArrowRight, Download, FileText, Users, Building2, Bot, ClipboardList, BadgeCheck, Hourglass, ShieldAlert, AlertTriangle, CalendarClock, Siren } from 'lucide-react';
 import { BarrasH, BarrasV, ChartCard, Evolucao } from '../components/charts';
 import { FiltrosGlobaisBar } from '../components/FiltrosGlobaisBar';
+import { RelatorioExecutivo } from '../components/RelatorioExecutivo';
 import { Botao, Card, KpiCard, PageHeader, cx } from '../components/ui';
 import type { PaginaId } from '../domain/types';
 import { calcularGraficos, calcularIndicadores, calcularPilares, exposicaoPorDepartamento, filtrosAtivos } from '../services/metrics';
@@ -32,6 +33,7 @@ export const VisaoGeralPage: React.FC = () => {
   const gr = useMemo(() => calcularGraficos(db, registrosFiltrados, hoje, ix), [db, registrosFiltrados, hoje, ix]);
   // Alertas respeitam os filtros globais: sem filtro, todos; com filtro, apenas os ligados
   // aos registros/áreas/colaboradores do recorte (alertas globais, como política, permanecem).
+  const [relatorio, setRelatorio] = useState(false);
   const alertasAtivos = useMemo(() => {
     const ativos = alertas.filter(a => !a.reconhecido);
     if (!filtrosAtivos(filtros)) return ativos;
@@ -118,7 +120,10 @@ export const VisaoGeralPage: React.FC = () => {
             <p className="text-sm text-blue-100/90 mt-1 max-w-2xl">Onde a IA é usada, por quem, para quê, com quais dados, sob quais regras, riscos e controles.</p>
           </div>
           {pode('relatorio.exportar') && (
-            <Botao variante="dourado" icone={<Download className="w-4 h-4" />} onClick={exportarResumo}>Exportar relatório (CSV)</Botao>
+            <div className="flex flex-wrap gap-2">
+              <Botao variante="dourado" icone={<FileText className="w-4 h-4" />} onClick={() => setRelatorio(true)}>Relatório executivo</Botao>
+              <Botao variante="secundario" className="!bg-transparent !text-white !border-white/40 hover:!bg-white/10" icone={<Download className="w-4 h-4" />} onClick={exportarResumo}>Indicadores (CSV)</Botao>
+            </div>
           )}
         </div>
       </div>
@@ -200,6 +205,7 @@ export const VisaoGeralPage: React.FC = () => {
         <ChartCard titulo="Utilizações por finalidade" dados={gr.porFinalidade}><BarrasH dados={gr.porFinalidade} larguraRotulo={150} /></ChartCard>
         <ChartCard titulo="Processos mais dependentes de IA" subtitulo="Top 8 por número de utilizações" dados={gr.processos} className="md:col-span-2 xl:col-span-3"><BarrasH dados={gr.processos} larguraRotulo={200} /></ChartCard>
       </div>
+      {relatorio && <RelatorioExecutivo onFechar={() => setRelatorio(false)} />}
     </div>
   );
 };

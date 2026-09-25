@@ -16,7 +16,15 @@ import type { PaginaId } from './domain/types';
 import { podeAcessarPagina } from './services/permissions';
 import { GovernanceProvider, useGovernanca } from './state/GovernanceContext';
 import { AprovacoesPage } from './pages/AprovacoesPage';
-import { EmConstrucaoPage, PlanoPagina } from './pages/EmConstrucaoPage';
+import { AuditoriaPage } from './pages/AuditoriaPage';
+import { CasosUsoPage } from './pages/CasosUsoPage';
+import { ColaboradoresPage } from './pages/ColaboradoresPage';
+import { ConfiguracoesPage } from './pages/ConfiguracoesPage';
+import { DepartamentosPage } from './pages/DepartamentosPage';
+import { FerramentasPage } from './pages/FerramentasPage';
+import { IncidentesPage } from './pages/IncidentesPage';
+import { PoliticasPage } from './pages/PoliticasPage';
+import { TreinamentosPage } from './pages/TreinamentosPage';
 import { GovernancaPage } from './pages/GovernancaPage';
 import { RiscosAlertasPage } from './pages/RiscosAlertasPage';
 import { VisaoGeralPage } from './pages/VisaoGeralPage';
@@ -40,19 +48,6 @@ const MENU: ItemMenu[] = [
   { id: 'auditoria', rotulo: 'Auditoria', icone: <Search className="w-[18px] h-[18px]" /> },
   { id: 'configuracoes', rotulo: 'Configurações', icone: <Settings className="w-[18px] h-[18px]" /> },
 ];
-
-/** Escopo das telas das próximas etapas (exibido enquanto não são entregues). */
-const PLANOS: Partial<Record<PaginaId, PlanoPagina>> = {
-  colaboradores: { titulo: 'Uso de IA por Colaborador', selo: 'Orientar', etapa: 3, escopo: ['Pesquisa por nome, departamento, empresa, ferramenta, status e risco', 'Ficha: ferramentas, finalidades, processos, aprovações, treinamentos, pendências, incidentes e última revisão'], dadosDisponiveis: 'colaboradores, registros de uso, participações em treinamentos e incidentes.' },
-  departamentos: { titulo: 'Mapa de Uso de IA por Departamento', selo: 'Controlar', etapa: 3, escopo: ['Usuários, ferramentas, casos de uso, risco, pendências, aprovações e incidentes por área', 'Detalhamento ao clicar no departamento'], dadosDisponiveis: 'departamentos, gestores e registros de uso.' },
-  ferramentas: { titulo: 'Catálogo de Ferramentas', selo: 'Homologar', etapa: 2, escopo: ['Cards por ferramenta: status, homologação, risco, usuários, casos de uso, última revisão, responsável e restrições', 'Cadastro e edição pelo Administrador (Gemini, Claude, IAs públicas…)'], dadosDisponiveis: '6 ferramentas com categoria, permissões, restrições e política.' },
-  'casos-uso': { titulo: 'Casos de Uso de IA', selo: 'Controlar', etapa: 2, escopo: ['Biblioteca com área, processo, ferramenta, objetivo, benefício, dados, risco, status, responsável, aprovação e controles', 'Cadastro e reutilização no assistente de solicitação'], dadosDisponiveis: '10 casos de uso do catálogo.' },
-  incidentes: { titulo: 'Incidentes de IA', selo: 'Monitorar', etapa: 4, escopo: ['Registro e tratamento (Aberto → Em análise → Em tratamento → Resolvido → Encerrado)', 'Tipos: uso indevido, envio não autorizado, ferramenta não homologada, vazamento, resultado incorreto, falha de automação, violação de política'], dadosDisponiveis: '3 incidentes de demonstração (já alimentam indicadores e alertas).' },
-  treinamentos: { titulo: 'Capacitação em IA', selo: 'Orientar', etapa: 4, escopo: ['Controle por colaborador: treinamento, data, status, certificação, reciclagem e próxima data', 'Indicadores: % treinados, % pendentes, % vencidos'], dadosDisponiveis: '5 treinamentos (2 obrigatórios) e participações.' },
-  politicas: { titulo: 'Políticas de Uso de IA', selo: 'Orientar', etapa: 4, escopo: ['Regras: dados permitidos/proibidos, ferramentas, aprovação, responsabilidades, IA generativa, automações, dados de clientes', 'Versionamento (1.0, 1.1, 2.0…) com data, responsável e alterações'], dadosDisponiveis: '2 políticas com regras e histórico de versões.' },
-  auditoria: { titulo: 'Trilha de Auditoria', selo: 'Rastreabilidade', etapa: 5, escopo: ['Quem alterou, o quê, valor anterior, novo valor, data e hora', 'Filtros por usuário, data, departamento, tipo de alteração e registro'], dadosDisponiveis: 'todos os eventos já são gravados (veja a aba Histórico de cada registro).' },
-  configuracoes: { titulo: 'Configurações', selo: 'Administração', etapa: 5, escopo: ['Pesos e faixas da matriz de risco', 'Periodicidade de revisão, cadastros de apoio (empresas, departamentos, usuários, controles)', 'Restaurar dados de demonstração'], dadosDisponiveis: 'configurações padrão já aplicadas pelo motor de risco.' },
-};
 
 const Toasts: React.FC = () => {
   const { toasts } = useGovernanca();
@@ -91,7 +86,15 @@ const Shell: React.FC<{ onExit?: () => void }> = ({ onExit }) => {
       case 'governanca': return <GovernancaPage />;
       case 'aprovacoes': return <AprovacoesPage />;
       case 'riscos-alertas': return <RiscosAlertasPage />;
-      default: return <EmConstrucaoPage plano={PLANOS[pagina]!} />;
+      case 'colaboradores': return <ColaboradoresPage />;
+      case 'departamentos': return <DepartamentosPage />;
+      case 'ferramentas': return <FerramentasPage />;
+      case 'casos-uso': return <CasosUsoPage />;
+      case 'incidentes': return <IncidentesPage />;
+      case 'treinamentos': return <TreinamentosPage />;
+      case 'politicas': return <PoliticasPage />;
+      case 'auditoria': return <AuditoriaPage />;
+      case 'configuracoes': return <ConfiguracoesPage />;
     }
   };
 
@@ -122,7 +125,6 @@ const Shell: React.FC<{ onExit?: () => void }> = ({ onExit }) => {
             {m.icone}
             <span className="flex-1 text-left truncate">{m.rotulo}</span>
             {!!contador[m.id] && <span className="text-[10px] font-bold bg-gov-navy text-white rounded-full px-1.5 min-w-[20px] text-center">{contador[m.id]}</span>}
-            {!PLANOS[m.id] ? null : <span className="text-[8px] font-bold text-slate-400 uppercase whitespace-nowrap" title="Tela prevista para as próximas etapas">em breve</span>}
           </button>
         ))}
       </nav>

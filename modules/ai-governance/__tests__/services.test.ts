@@ -193,3 +193,22 @@ describe('auditoria', () => {
     ]);
   });
 });
+
+describe('versionamento de políticas', async () => {
+  const { proximaVersao } = await import('../pages/PoliticasPage');
+  it('gera versão menor e maior', () => {
+    expect(proximaVersao('1.1', 'menor')).toBe('1.2');
+    expect(proximaVersao('1.9', 'menor')).toBe('1.10');
+    expect(proximaVersao('1.1', 'maior')).toBe('2.0');
+  });
+});
+
+describe('matriz corporativa de riscos', () => {
+  it('classifica probabilidade × impacto nas faixas documentadas', async () => {
+    const { nivelMatriz } = await import('../services/riskEngine');
+    expect(nivelMatriz(1, 4)).toBe('BAIXO');
+    expect(nivelMatriz(1, 5)).toBe('MEDIO');
+    expect(nivelMatriz(3, 4)).toBe('ALTO');
+    expect(nivelMatriz(4, 5)).toBe('CRITICO');
+  });
+});

@@ -169,7 +169,7 @@ Casos em ferramenta homologada com risco Baixo seguem aprovação automática po
 | 🎓 Treinamentos | Capacitação em IA (% treinados, pendentes, vencidos) |
 | 📑 Políticas | Políticas, regras e versões |
 | 🔎 Auditoria | Trilha de auditoria com filtros |
-| ⚙ Configurações | Perfis, pesos da matriz, cadastros de apoio, dados de demonstração |
+| ⚙ Configurações | Pesos e faixas da matriz, prazos, cadastros de apoio, perfis, exportação da base e dados de demonstração |
 
 ## 7. Fluxo de dados
 
@@ -207,11 +207,11 @@ Alertas: estado ─▶ alertEngine (regras) ─▶ Central de Alertas (reconheci
 
 ## 10. Plano de etapas
 
-| Etapa | Escopo |
-|---|---|
-| **1** | Fundação (modelo, repositório, motores de risco/permissão/auditoria/alertas/fluxo), integração ao painel, Visão Geral (Painel Executivo) e Registro de Uso com assistente condicional |
-| 2 | Aprovações (condução das 8 etapas), Ferramentas, Casos de Uso |
-| 3 | Colaboradores, Departamentos, Riscos e Alertas |
-| 4 | Incidentes, Treinamentos, Políticas (versões) |
-| 5 | Auditoria, Configurações, relatório executivo e exportações |
-| 6 | Integrações (Sheets/Apps Script/e-mail), SSO e backend |
+| Etapa | Escopo | Situação |
+|---|---|---|
+| 1 | Fundação (modelo, repositório, motores de risco/permissão/auditoria/alertas/fluxo), integração ao painel, Visão Geral (Painel Executivo) e Registro de Uso com assistente condicional | ✅ Concluída |
+| 2 | Aprovações (condução das 8 etapas), Catálogo de Ferramentas, Casos de Uso | ✅ Concluída |
+| 3 | Colaboradores (busca e ficha), Mapa por Departamento, Riscos e Alertas (registro, matriz P×I, melhorias) | ✅ Concluída |
+| 4 | Incidentes, Capacitação em IA, Políticas (regras e versões) | ✅ Concluída |
+| 5 | Trilha de Auditoria, Configurações (matriz, prazos, cadastros, perfis, dados), Relatório Executivo e exportações CSV/JSON | ✅ Concluída |
+| 6 | Integrações (Sheets/Apps Script/e-mail/Power BI), SSO Google Workspace, backend com validação de permissões, PDF/Excel | Próxima fase |
