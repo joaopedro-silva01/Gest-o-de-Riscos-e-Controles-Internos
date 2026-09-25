@@ -113,7 +113,9 @@ export const GovernanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   // Ref com o estado mais recente: permite ações síncronas sem efeitos colaterais dentro de setState.
   const dbRef = useRef(db);
 
-  const [usuarioId, setUsuarioId] = useState<ID>(() => localStorage.getItem(CHAVE_USUARIO) || 'usr-01');
+  const [usuarioId, setUsuarioId] = useState<ID>(() => {
+    try { return localStorage.getItem(CHAVE_USUARIO) || 'usr-01'; } catch { return 'usr-01'; }
+  });
   const usuario = db.usuarios.find(u => u.id === usuarioId) ?? db.usuarios[0];
 
   const [filtros, setFiltros] = useState<FiltrosGlobais>(FILTROS_VAZIOS);
@@ -359,7 +361,7 @@ export const GovernanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const trocarUsuario = useCallback((id: ID) => {
     setUsuarioId(id);
-    localStorage.setItem(CHAVE_USUARIO, id);
+    try { localStorage.setItem(CHAVE_USUARIO, id); } catch { /* armazenamento indisponível: preferência não é lembrada */ }
     const u = dbRef.current.usuarios.find(x => x.id === id);
     setFiltros(FILTROS_VAZIOS);
     setNav({ pagina: u?.perfil === 'COLABORADOR' ? 'governanca' : 'visao-geral' });

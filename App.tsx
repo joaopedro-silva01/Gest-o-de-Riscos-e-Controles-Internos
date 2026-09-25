@@ -60,7 +60,10 @@ const App: React.FC = () => {
   });
 
   // Navigation State
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'documents' | 'manage' | 'ai' | 'aiGovernance'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'documents' | 'manage' | 'ai' | 'aiGovernance'>(
+    // Link direto para o módulo: .../#governanca-ia
+    () => (typeof window !== 'undefined' && window.location.hash === '#governanca-ia' ? 'aiGovernance' : 'dashboard')
+  );
   const [selectedUnit, setSelectedUnit] = useState<string>('Consolidado');
   
   // Data Management Sub-tab State
