@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -13,7 +13,8 @@ import {
   Circle,
   X,
   Save,
-  CheckCircle2
+  CheckCircle2,
+  ShieldCheck
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -30,6 +31,9 @@ import {
 import { MOCK_RISKS, MOCK_DOCUMENTS } from './constants';
 import { generateStrategicAnalysis } from './services/geminiService';
 import { DocumentItem, RiskItem, UnitType, RiskLevel, DocumentType } from './types';
+
+// Módulo "Governança e Segurança da IA" — carregado sob demanda (code splitting).
+const AIGovernanceModule = lazy(() => import('./modules/ai-governance/AIGovernanceModule'));
 
 // Helper for date formatting
 const formatDateBR = (dateString: string) => {
@@ -56,7 +60,7 @@ const App: React.FC = () => {
   });
 
   // Navigation State
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'documents' | 'manage' | 'ai'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'documents' | 'manage' | 'ai' | 'aiGovernance'>('dashboard');
   const [selectedUnit, setSelectedUnit] = useState<string>('Consolidado');
   
   // Data Management Sub-tab State
@@ -945,6 +949,15 @@ const App: React.FC = () => {
     </div>
   );
 
+  // Módulo de Governança da IA ocupa a tela inteira, com menu próprio e retorno a este painel.
+  if (activeTab === 'aiGovernance') {
+    return (
+      <Suspense fallback={<div className="flex h-screen items-center justify-center text-sm text-slate-500">Carregando Governança e Segurança da IA…</div>}>
+        <AIGovernanceModule onExit={() => setActiveTab('dashboard')} />
+      </Suspense>
+    );
+  }
+
   // --- Main Layout ---
   return (
     <div className="flex h-screen bg-[#f3f4f6] font-sans text-slate-900 overflow-hidden">
@@ -1018,6 +1031,14 @@ const App: React.FC = () => {
           >
             <BrainCircuit className="w-5 h-5" />
             <span>Análise IA</span>
+          </button>
+
+          <button 
+            onClick={() => setActiveTab('aiGovernance')}
+            className="w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-r-full border-l-4 transition-all border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+          >
+            <ShieldCheck className="w-5 h-5" />
+            <span>Governança da IA</span>
           </button>
         </nav>
 

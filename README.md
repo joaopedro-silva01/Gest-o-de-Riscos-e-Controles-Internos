@@ -18,3 +18,12 @@ View your app in AI Studio: https://ai.studio/apps/drive/1GFSAN3eDXgqrie7a4cvB1H
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Módulo: Governança e Segurança da IA
+
+Acessível pelo item **Governança da IA** do menu lateral do painel. Código em `modules/ai-governance/`
+e arquitetura em [`docs/governanca-ia/ARQUITETURA.md`](docs/governanca-ia/ARQUITETURA.md).
+
+- Dados **fictícios** de demonstração são carregados na primeira execução (armazenados no navegador, chave `cicllos_aigov_db`).
+- Use **"Simular perfil"** (rodapé do menu do módulo) para ver o sistema como Administrador, Gestor, Auditor, Diretoria ou Colaborador.
+- Testes das regras de negócio: `npm test` · Verificação de tipos: `npm run typecheck`
