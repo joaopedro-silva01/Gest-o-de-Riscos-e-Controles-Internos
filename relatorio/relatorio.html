@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Relatório Estratégico de Atividades</title>
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --blue: #0070C0;
+    --navy: #0B2E4F;
+    --sky: #4FA3E0;
+    --amber: #E8A317;
+    --green: #2BA88A;
+    --ink: #2B2F36;
+    --muted: #6B7280;
+    --line: #E3E8EF;
+    --soft: #F3F7FB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; }
+  body { font-family: "Inter", "DejaVu Sans", sans-serif; color: var(--ink); font-size: 10pt; line-height: 1.5; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .page { width: 210mm; height: 297mm; position: relative; overflow: hidden; page-break-after: always; break-after: page; }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+
+  /* ---------- Capa ---------- */
+  .cover .side { position: absolute; top: 0; right: 0; width: 34mm; height: 100%; background: var(--blue); }
+  .cover .side span { position: absolute; top: 18mm; right: 9mm; writing-mode: vertical-rl; transform: rotate(180deg); color: #fff; font-weight: 700; font-size: 17pt; letter-spacing: .3px; transform-origin: center; }
+  .cover .side span { transform: none; writing-mode: vertical-rl; }
+  .cover .logo { position: absolute; top: 48mm; left: 22mm; }
+  .cover .band { position: absolute; top: 112mm; left: 0; width: 100%; height: 76mm; background: var(--blue); padding: 13mm 0 0 22mm; color: #fff; }
+  .cover .band h1 { font-size: 23pt; font-weight: 700; letter-spacing: -.2px; }
+  .cover .band .sub { margin-top: 9mm; font-size: 15pt; font-style: italic; font-weight: 700; }
+  .cover .band .date { margin-top: 2mm; font-size: 12.5pt; font-weight: 700; }
+  .cover .band .upd { margin-top: 3mm; font-size: 10pt; font-weight: 500; opacity: .95; }
+  .cover .band .upd::before { content: "\2022"; margin-right: 3mm; }
+  .cover .meta { position: absolute; bottom: 26mm; left: 22mm; width: 140mm; color: var(--ink); }
+  .cover .meta .label { font-size: 8pt; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); font-weight: 600; }
+  .cover .meta .value { font-size: 11.5pt; font-weight: 600; margin-bottom: 4.5mm; }
+  .cover .meta .value small { font-weight: 400; color: var(--muted); font-size: 9.5pt; }
+
+  /* ---------- Páginas internas ---------- */
+  .inner { padding: 20mm 30mm 22mm 18mm; }
+  .inner::after { content: ""; position: absolute; top: 0; right: 0; width: 9mm; height: 100%; background: var(--blue); }
+  .inner .runhead { position: absolute; top: 9mm; left: 18mm; right: 30mm; display: flex; justify-content: space-between; font-size: 7.5pt; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; border-bottom: 1px solid var(--line); padding-bottom: 2mm; }
+  .inner .foot { position: absolute; bottom: 9mm; left: 18mm; right: 30mm; display: flex; justify-content: space-between; font-size: 7.5pt; color: var(--muted); border-top: 1px solid var(--line); padding-top: 2mm; }
+  .inner .foot b { color: var(--blue); }
+
+  .kicker { font-size: 8pt; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.6px; margin-bottom: 1.5mm; }
+  h2 { font-size: 19pt; color: var(--navy); font-weight: 700; letter-spacing: -.3px; line-height: 1.2; margin-bottom: 4mm; }
+  h3 { font-size: 11.5pt; color: var(--navy); font-weight: 700; margin: 5mm 0 2mm; }
+  p { margin-bottom: 2.6mm; text-align: justify; hyphens: auto; }
+  .lead { font-size: 11pt; color: #3A4250; }
+  .muted { color: var(--muted); }
+  .rule { height: 3px; width: 16mm; background: var(--blue); margin: 0 0 6mm; border-radius: 2px; }
+
+  .grid { display: grid; gap: 4mm; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+
+  .kpi { background: var(--soft); border-radius: 3mm; padding: 4mm 4mm 3.5mm; border-top: 3px solid var(--blue); }
+  .kpi .n { font-size: 22pt; font-weight: 700; color: var(--navy); line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .kpi .n small { font-size: 11pt; color: var(--blue); font-weight: 700; }
+  .kpi .t { font-size: 8.3pt; color: var(--muted); margin-top: 1mm; line-height: 1.35; }
+
+  .card { border: 1px solid var(--line); border-radius: 3mm; padding: 4mm 4.5mm; background: #fff; }
+  .card h4 { font-size: 10pt; color: var(--navy); margin-bottom: 1.5mm; }
+  .card p, .card li { font-size: 9pt; }
+  .card.accent { border-left: 4px solid var(--blue); }
+  .callout { background: var(--navy); color: #fff; border-radius: 3mm; padding: 5mm 6mm; }
+  .callout p { color: #E6EEF6; margin: 0; }
+  .callout b { color: #fff; font-weight: 700; }
+  .callout p { text-align: left; }
+  b, strong { font-weight: 700; }
+  .callout .q { font-size: 12pt; font-weight: 600; line-height: 1.45; color: #fff; }
+
+  ul.clean { list-style: none; }
+  ul.clean li { position: relative; padding-left: 5mm; margin-bottom: 1.6mm; }
+  ul.clean li::before { content: ""; position: absolute; left: 0; top: 1.9mm; width: 2mm; height: 2mm; border-radius: 50%; background: var(--blue); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 8.6pt; }
+  th { text-align: left; font-size: 7.5pt; text-transform: uppercase; letter-spacing: .8px; color: #fff; background: var(--navy); padding: 2mm 2.4mm; font-weight: 600; }
+  td { padding: 1.9mm 2.4mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: #FAFCFE; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tag { display: inline-block; font-size: 7pt; font-weight: 700; padding: .4mm 2mm; border-radius: 10mm; color: #fff; white-space: nowrap; }
+  .ok { color: var(--green); font-weight: 700; }
+
+  .toc li { display: flex; align-items: baseline; gap: 2mm; padding: 2.3mm 0; border-bottom: 1px dashed var(--line); font-size: 10.5pt; list-style: none; }
+  .toc li .no { color: var(--blue); font-weight: 700; width: 9mm; }
+  .toc li .pg { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .legend { display: flex; flex-direction: column; gap: 2mm; font-size: 8.8pt; }
+  .legend .row { display: flex; align-items: center; gap: 2.4mm; }
+  .legend .sw { width: 3.2mm; height: 3.2mm; border-radius: 1mm; flex: none; }
+  .legend .row b { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--navy); }
+
+  .pillar-head { display: flex; align-items: center; gap: 4mm; margin-bottom: 4mm; }
+  .pillar-head .badge { width: 13mm; height: 13mm; border-radius: 3mm; color: #fff; font-weight: 700; font-size: 15pt; display: flex; align-items: center; justify-content: center; flex: none; }
+  .pillar-head h2 { margin: 0; }
+  .pillar-head .stat { margin-left: auto; text-align: right; font-size: 8pt; color: var(--muted); line-height: 1.3; }
+  .pillar-head .stat b { display: block; font-size: 17pt; color: var(--navy); }
+
+  .phase { border-radius: 3mm; padding: 4mm; color: #fff; }
+  .phase .when { font-size: 7.5pt; text-transform: uppercase; letter-spacing: 1.2px; opacity: .85; font-weight: 600; }
+  .phase .what { font-size: 11pt; font-weight: 700; margin: 1mm 0 2mm; line-height: 1.25; }
+  .phase ul { list-style: none; font-size: 8.4pt; line-height: 1.45; }
+  .phase li::before { content: "› "; font-weight: 700; }
+
+  .ba td:first-child { font-weight: 600; color: var(--navy); width: 30%; }
+  .ba td:nth-child(2) { color: #8A5A00; }
+  .ba td:nth-child(3) { color: #1B6E58; }
+
+  .heat { table-layout: fixed; }
+  .heat th:first-child { width: 30%; }
+  .heat td { text-align: center; font-size: 8pt; padding: 1.6mm 1mm; border: 2px solid #fff; }
+  .heat td:first-child { text-align: left; font-weight: 600; color: var(--navy); font-size: 8.4pt; background: #fff !important; }
+  .heat th { text-align: center; font-size: 6.8pt; padding: 1.6mm .6mm; letter-spacing: .3px; }
+  .heat th:first-child { text-align: left; }
+
+  .annex td { font-size: 7.8pt; padding: 1.2mm 2mm; }
+  .annex th { font-size: 6.8pt; padding: 1.6mm 2mm; }
+  .annex tr.grp td { background: #EAF3FB !important; font-weight: 700; color: var(--navy); }
+
+  .sig { margin-top: 12mm; display: flex; gap: 14mm; }
+  .sig div { flex: 1; border-top: 1px solid var(--ink); padding-top: 2mm; font-size: 8.5pt; color: var(--muted); }
+  .sig div b { display: block; color: var(--ink); font-size: 9.5pt; }
+  .note { font-size: 7.6pt; color: var(--muted); margin-top: 2mm; line-height: 1.4; text-align: left; }
+</style>
+</head>
+<body>
+
+<!-- =============================== CAPA =============================== -->
+<section class="page cover">
+  <div class="side"><span>Relatório de Atividades</span></div>
+  <div class="logo">
+    <svg width="122mm" height="40mm" viewBox="0 0 460 150" xmlns="http://www.w3.org/2000/svg">
+      <!-- Marca: anel com arco azul -->
+      <circle cx="58" cy="58" r="44" fill="none" stroke="#3C3C3C" stroke-width="7" stroke-dasharray="232 44" transform="rotate(30 58 58)"/>
+      <path d="M 58 24 A 34 34 0 0 1 92 58" fill="none" stroke="#2C8FD6" stroke-width="5" stroke-linecap="round"/>
+      <text x="112" y="88" font-family="Inter, DejaVu Sans, sans-serif" font-size="88" font-weight="500" fill="#3C3C3C" letter-spacing="-1">Cicllos</text>
+      <text x="120" y="132" font-family="Inter, DejaVu Sans, sans-serif" font-size="27" font-weight="300" fill="#4A4A4A" letter-spacing="1">Tecnologia para a vida</text>
+    </svg>
+  </div>
+  <div class="band">
+    <h1>Cicllos Seguradora</h1>
+    <div class="sub">Relatório Estratégico de Atividades</div>
+    <div class="date">Gestão de Riscos, Controles Internos e Automação</div>
+    <div class="date" style="font-weight:600; font-size:11.5pt; margin-top:4mm">Outubro de 2026</div>
+    <div class="upd">Última atualização: 20/10/2026</div>
+  </div>
+  <div class="meta">
+    <div class="label">Apresentado à</div>
+    <div class="value">Diretoria — Grupo Pirâmide / Cicllos</div>
+    <div class="label">Responsável</div>
+    <div class="value">João Pedro <small>· Gestão de Riscos e Controles Internos</small></div>
+    <div class="label">Empresas atendidas</div>
+    <div class="value" style="font-size:10pt">Cicllos Seguradora · Cicllos Pay · Pirâmide · Rede Valorize · Cooperfapa</div>
+  </div>
+</section>
+
+<!-- =============================== SUMÁRIO + CARTA =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+
+  <div class="kicker">Sumário</div>
+  <h2>Conteúdo do relatório</h2>
+  <div class="rule"></div>
+  <ol class="toc" style="margin-bottom:9mm">
+    <li><span class="no">01</span>Sumário executivo e indicadores-chave<span class="pg">3</span></li>
+    <li><span class="no">02</span>Evolução do escopo de atuação<span class="pg">4</span></li>
+    <li><span class="no">03</span>Pilar I — Governança, Riscos e Compliance Regulatório<span class="pg">5</span></li>
+    <li><span class="no">04</span>Pilar II — Automação, IA e Painéis de Gestão<span class="pg">6</span></li>
+    <li><span class="no">05</span>Pilar III — Inteligência Comercial e Expansão da Rede<span class="pg">7</span></li>
+    <li><span class="no">06</span>Pilares IV e V — Processos, Metodologia e Canais Digitais<span class="pg">8</span></li>
+    <li><span class="no">07</span>Análise de impacto e indicadores de entrega<span class="pg">9</span></li>
+    <li><span class="no">08</span>Valor gerado e competências demonstradas<span class="pg">10</span></li>
+    <li><span class="no">09</span>Próximos passos e proposta à Diretoria<span class="pg">11</span></li>
+    <li><span class="no">A</span>Anexo — Registro completo das entregas<span class="pg" id="annexPages">12</span></li>
+  </ol>
+
+  <div class="kicker">Apresentação</div>
+  <h2 style="font-size:15pt">Mensagem à Diretoria</h2>
+  <p class="lead">Este relatório consolida, de forma estratégica, as entregas realizadas entre <b>novembro de 2025 e outubro de 2026</b> sob a frente de Gestão de Riscos e Controles Internos — e a expansão natural dessa atuação para <b>automação de processos, inteligência artificial e painéis de gestão</b> das áreas do grupo.</p>
+  <p>A atuação começou pela base regulatória e de governança (estruturação da Cicllos Pay rumo à autorização como Instituição de Pagamento, controle de ofícios e normativos do BACEN, manuais de responsabilidade) e evoluiu para um papel transversal: hoje, as áreas Comercial, Marketing, Jurídico, Compras, T.I. e a Rede Credenciada contam com fluxos estruturados, controles e painéis de acompanhamento desenvolvidos nesta frente.</p>
+  <p>Todas as <b>44 entregas</b> registradas no acompanhamento de demandas foram <b>concluídas (100%)</b>. O objetivo deste material é dar visibilidade ao valor gerado, à amplitude do escopo assumido e às oportunidades de continuidade, servindo de base para a discussão sobre a evolução do cargo e das responsabilidades.</p>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>2</b></div>
+</section>
+
+<!-- =============================== 01 SUMÁRIO EXECUTIVO =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">01 · Sumário executivo</div>
+  <h2>Um ano de entregas: do controle regulatório à gestão orientada por dados</h2>
+  <div class="rule"></div>
+
+  <div class="grid g3" id="kpis" style="margin-bottom:6mm"></div>
+
+  <div class="grid g2" style="grid-template-columns: 1fr 1fr; align-items:start; margin-bottom:6mm">
+    <div class="card" style="padding:5mm">
+      <h4>Distribuição das 44 entregas por pilar estratégico</h4>
+      <div style="display:flex; justify-content:center; margin:3mm 0 4mm"><div id="donut"></div></div>
+      <div class="legend" id="donutLegend"></div>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Destaques do período</h3>
+      <ul class="clean">
+        <li><b>Base regulatória da Cicllos Pay</b> estruturada: plano de negócio, áreas mínimas para IP emissora de moeda eletrônica e apresentação de autorização.</li>
+        <li><b>Projeto IA Grupo Pirâmide Cicllos</b>: frente de Backoffice e Automação cobrindo 6 áreas da empresa.</li>
+        <li><b>Painéis de gestão</b> entregues para Jurídico, Marketing, Compras e Rede Valorize.</li>
+        <li><b>CRM Ploomes</b> estruturado: funis de prospecção, relacionamento e cancelamento, com visões gerenciais.</li>
+        <li><b>Campanhas com IA</b>: piloto e envio automatizado de campanhas aos parceiros de Saúde e Comércio.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p class="q">Os pilares de <b>Automação/IA</b> e <b>Comercial</b> somam <span id="pctAC"></span> das entregas: a frente de Riscos e Controles Internos passou a atuar também como <b>motor de eficiência e de geração de receita</b> do grupo, sem perder a base de governança.</p>
+  </div>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>3</b></div>
+</section>
+
+<!-- =============================== 02 EVOLUÇÃO DE ESCOPO =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">02 · Evolução do escopo</div>
+  <h2>De analista de riscos a ponto focal de governança, processos e automação</h2>
+  <div class="rule"></div>
+  <p class="lead">A trajetória do período mostra três fases. Em cada uma, o escopo foi ampliado sem perder as entregas da fase anterior. O resultado é uma atuação que conecta <b>conformidade</b>, <b>eficiência operacional</b> e <b>resultado comercial</b>.</p>
+
+  <div class="grid g3" style="margin:5mm 0 6mm">
+    <div class="phase" style="background:var(--navy)">
+      <div class="when">Fase 1 · Nov – Dez/2025</div>
+      <div class="what">Fundação regulatória e governança</div>
+      <ul>
+        <li>Plano de negócio Cicllos Pay</li>
+        <li>Áreas mínimas para IP autorizada</li>
+        <li>Controle de Ofícios</li>
+        <li>Controle de Leis e Normativos BACEN</li>
+        <li>Projeto Rede Valorize 80/20</li>
+      </ul>
+    </div>
+    <div class="phase" style="background:var(--blue)">
+      <div class="when">Fase 2 · Jan – Abr/2026</div>
+      <div class="what">Gestão, processos e estratégia comercial</div>
+      <ul>
+        <li>Metodologia SCRUM nas reuniões de líderes</li>
+        <li>Fluxogramas e manual da Rede Credenciada</li>
+        <li>Relatórios e metas comerciais</li>
+        <li>Expansão da Rede Saúde (Araguari)</li>
+        <li>Landing pages e alinhamento Comercial × Marketing</li>
+      </ul>
+    </div>
+    <div class="phase" style="background:var(--sky)">
+      <div class="when">Fase 3 · Abr – Out/2026</div>
+      <div class="what">Automação, IA e painéis de gestão</div>
+      <ul>
+        <li>Projeto IA — campanhas automatizadas</li>
+        <li>CRM Ploomes com funis e visões gerenciais</li>
+        <li>Site Rede Valorize + RD Station</li>
+        <li>Painéis: Jurídico, Marketing, Compras, RV</li>
+        <li>Backoffice e Automação (6 áreas)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Amplitude da atuação</h3>
+  <div class="grid g2">
+    <div class="card accent">
+      <h4>Escopo original</h4>
+      <p style="margin:0">Gestão de Riscos e Controles Internos: mapeamento de riscos, controles regulatórios, normativos e documentação de responsabilidades.</p>
+    </div>
+    <div class="card accent" style="border-left-color:var(--green)">
+      <h4>Escopo atual (exercido na prática)</h4>
+      <p style="margin:0">Governança e compliance <b>+</b> PMO de iniciativas <b>+</b> automação e IA <b>+</b> inteligência comercial (CRM, metas, bonificações) <b>+</b> painéis de gestão para áreas de backoffice.</p>
+    </div>
+  </div>
+
+  <h3>Alcance organizacional</h3>
+  <div class="grid g4" id="reach"></div>
+  <p class="note">Áreas e empresas extraídas do registro de demandas e da estrutura do Projeto IA Grupo Pirâmide Cicllos (Backoffice e Automação).</p>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>4</b></div>
+</section>
+
+<!-- =============================== 03 PILAR I GOVERNANÇA =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">03 · Pilar I</div>
+  <div class="pillar-head">
+    <div class="badge" style="background:var(--navy)">I</div>
+    <h2>Governança, Riscos e Compliance Regulatório</h2>
+    <div class="stat"><b data-count="G"></b>entregas</div>
+  </div>
+  <p class="lead">Base que sustenta o crescimento regulado do grupo. As entregas deste pilar reduzem a exposição a riscos legais e regulatórios e preparam a Cicllos Pay para operar como Instituição de Pagamento autorizada.</p>
+
+  <table style="margin:3mm 0 4mm">
+    <thead><tr><th style="width:38%">Entrega</th><th>Valor estratégico</th></tr></thead>
+    <tbody>
+      <tr><td><b>Plano de Negócio — Cicllos Pay</b><br><span class="muted">Base estrutural</span></td><td>Documento-base para o pleito de autorização e para decisões de investimento.</td></tr>
+      <tr><td><b>Manual de responsabilidades por área</b><br><span class="muted">Áreas mínimas para IP emissora de moeda eletrônica</span></td><td>Define estrutura organizacional exigida pelo regulador e reduz lacunas de atribuição.</td></tr>
+      <tr><td><b>Controle de Ofícios — Cicllos Pay</b></td><td>Rastreabilidade de prazos e respostas a órgãos reguladores; evita multas por perda de prazo.</td></tr>
+      <tr><td><b>Controle de Leis e Normativos — BACEN</b></td><td>Monitoramento regulatório contínuo; base para gestão de conformidade.</td></tr>
+      <tr><td><b>Apresentação — Autorização IP</b></td><td>Material executivo de suporte à decisão da Diretoria sobre o processo de autorização.</td></tr>
+      <tr><td><b>Manual de responsabilidades — Rede Valorize</b></td><td>Formaliza papéis e obrigações da rede credenciada; reduz risco operacional e contratual.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid g2" style="grid-template-columns: 1fr 1.05fr; align-items:start">
+    <div>
+      <h3 style="margin-top:0">Plataforma de Gestão de Riscos e Controles Internos</h3>
+      <p>Desenvolvida como ferramenta própria, centraliza <b>políticas, normas e manuais</b> da Cicllos Seguradora e da Cicllos Pay e calcula a <b>matriz de riscos</b> a partir de cinco fatores estratégicos de impacto:</p>
+      <ul class="clean" style="font-size:9pt">
+        <li>Esforço de gestão</li>
+        <li>Regulação (SUSEP / BACEN)</li>
+        <li>Funcionalidade</li>
+        <li>LGPD e segurança de dados</li>
+        <li>Carteira de clientes e experiência do usuário</li>
+      </ul>
+      <p style="font-size:9pt">Inclui análise estratégica assistida por IA, alinhando o pilar de riscos ao Projeto IA.</p>
+    </div>
+    <div class="card" style="padding:4mm">
+      <h4>Matriz de riscos — visão da plataforma</h4>
+      <div id="matrix"></div>
+      <p class="note" style="margin-top:1mm">Riscos de exemplo cadastrados na plataforma (escala 1–5): OP-001 Fraude em sinistros · LGPD-02 Vazamento de dados · TEC-05 Falha no gateway · FIN-01 Inadimplência de prêmios · REG-03 Alterações SUSEP.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>5</b></div>
+</section>
+
+<!-- =============================== 04 PILAR II AUTOMAÇÃO =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">04 · Pilar II</div>
+  <div class="pillar-head">
+    <div class="badge" style="background:var(--blue)">II</div>
+    <h2>Automação, IA e Painéis de Gestão</h2>
+    <div class="stat"><b data-count="A"></b>entregas</div>
+  </div>
+  <p class="lead">Frente mais recente e de maior alavancagem: transforma processos manuais em fluxos automatizados e dá à liderança <b>visibilidade em tempo real</b> sobre as áreas. Organizada no <b>Projeto IA Grupo Pirâmide Cicllos</b>, na frente de Backoffice e Automação.</p>
+
+  <h3>Ecossistema de Backoffice e Automação</h3>
+  <div id="eco" style="margin-bottom:3mm"></div>
+
+  <div class="grid g2" style="margin-top:2mm">
+    <div class="card accent">
+      <h4>Painéis de gestão entregues</h4>
+      <ul class="clean">
+        <li><b>Jurídico</b> — painel de gestão do departamento.</li>
+        <li><b>Marketing</b> — painel de gestão de demandas.</li>
+        <li><b>Compras</b> — painel de gestão e controle, com automação.</li>
+        <li><b>Rede Valorize</b> — automação e dashboard da rede.</li>
+        <li><b>Comercial RV</b> — relatório de metas e visões no Ploomes.</li>
+      </ul>
+    </div>
+    <div class="card accent" style="border-left-color:var(--green)">
+      <h4>Automação e IA aplicada</h4>
+      <ul class="clean">
+        <li>Mapeamento dos pontos automatizáveis (RV + Saúde).</li>
+        <li>Envio automatizado de campanhas aos parceiros.</li>
+        <li>Piloto com IA: mensagens e posts (com T.I.).</li>
+        <li>Funis no Ploomes: prospecção, relacionamento e cancelamento.</li>
+        <li>Formulário do site integrado ao RD Station.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:5mm">
+    <p><b>Impacto estratégico:</b> decisões que antes dependiam de planilhas dispersas passam a ser tomadas com base em painéis padronizados. O tempo das equipes migra de tarefas repetitivas para análise e relacionamento, e a Diretoria ganha uma visão consolidada das áreas de backoffice.</p>
+  </div>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>6</b></div>
+</section>
+
+<!-- =============================== 05 PILAR III COMERCIAL =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">05 · Pilar III</div>
+  <div class="pillar-head">
+    <div class="badge" style="background:var(--amber)">III</div>
+    <h2>Inteligência Comercial e Expansão da Rede</h2>
+    <div class="stat"><b data-count="C"></b>entregas</div>
+  </div>
+  <p class="lead">Atuação direta sobre a geração de receita: mapeamento e priorização de parceiros, estrutura de metas e bonificações, novos canais (corretores) e recuperação de clientes.</p>
+
+  <div class="grid g2" style="margin:4mm 0">
+    <div class="card">
+      <h4>Rede Valorize e Rede Saúde</h4>
+      <ul class="clean">
+        <li>Projeto <b>80/20</b>: mapeamento e priorização de parceiros.</li>
+        <li>Mapeamento de parceiros de Saúde.</li>
+        <li><b>Araguari</b>: script de comunicação, aditivos e questões contratuais, protocolo de divulgação e análise de dados com apresentação (5 entregas).</li>
+        <li>Relatório semanal de resultados e prospecções (RV + Saúde).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Metas, canais e retenção</h4>
+      <ul class="clean">
+        <li>Estrutura de <b>acompanhamento de meta comercial</b>.</li>
+        <li><b>Controle de resultados e bonificações</b>.</li>
+        <li><b>Canal Corretor + Saúde</b>: estudo e apresentação.</li>
+        <li>Material de apoio para <b>corretores externos</b>.</li>
+        <li><b>Projeto Reconquista de Clientes</b> (Plano Pirâmide).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Composição das entregas comerciais</h3>
+  <div id="comBars"></div>
+
+  <div class="callout" style="margin-top:5mm">
+    <p><b>Leitura estratégica:</b> a aplicação do princípio 80/20 à rede credenciada, combinada com metas, bonificações e um canal de corretores, cria as condições para <b>crescer receita com foco nos parceiros de maior retorno</b>, enquanto o projeto Reconquista atua na retenção da base.</p>
+  </div>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>7</b></div>
+</section>
+
+<!-- =============================== 06 PILARES IV E V =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">06 · Pilares IV e V</div>
+  <div class="pillar-head">
+    <div class="badge" style="background:var(--green)">IV</div>
+    <h2>Processos, Metodologia e Gestão</h2>
+    <div class="stat"><b data-count="P"></b>entregas</div>
+  </div>
+  <p>Organização da rotina de gestão e mapeamento dos processos críticos, criando previsibilidade e alinhamento entre líderes.</p>
+  <table style="margin-bottom:6mm">
+    <thead><tr><th style="width:42%">Entrega</th><th>Resultado para a organização</th></tr></thead>
+    <tbody>
+      <tr><td><b>Reuniões de líderes — metodologia SCRUM</b></td><td>Cadência, priorização e acompanhamento visível das demandas entre áreas.</td></tr>
+      <tr><td><b>Acompanhamento da consultoria de Marketing</b></td><td>Controle de entregas de fornecedor externo.</td></tr>
+      <tr><td><b>Reuniões periódicas e gestão de agendamentos</b></td><td>Rotina de alinhamento com equipes, incluindo a equipe da Seguradora.</td></tr>
+      <tr><td><b>Fluxograma comercial — Rede Valorize</b></td><td>Processo comercial documentado e replicável.</td></tr>
+      <tr><td><b>Mapeamento do Complexo Pirâmide</b></td><td>Procedimento de manutenção estruturado.</td></tr>
+      <tr><td><b>Protocolo de atendimento da Telemedicina</b></td><td>Jornada online e presencial padronizada; base para qualidade e controle.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="pillar-head">
+    <div class="badge" style="background:var(--sky)">V</div>
+    <h2>Canais Digitais e Marketing</h2>
+    <div class="stat"><b data-count="M"></b>entregas</div>
+  </div>
+  <p>Integração entre Comercial e Marketing e presença digital das marcas do grupo.</p>
+  <table>
+    <thead><tr><th style="width:42%">Entrega</th><th>Resultado para a organização</th></tr></thead>
+    <tbody>
+      <tr><td><b>Landing page — reestruturação e melhorias</b></td><td>Melhor conversão e comunicação (em conjunto com Marketing).</td></tr>
+      <tr><td><b>Landing page Sindvest</b></td><td>Alinhamento entre Time Comercial e Marketing.</td></tr>
+      <tr><td><b>Site Rede Valorize em produção</b></td><td>Canal próprio da rede publicado (com T.I.).</td></tr>
+      <tr><td><b>Formulário + RD Station</b></td><td>Captura de leads integrada à automação de marketing.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>8</b></div>
+</section>
+
+<!-- =============================== 07 ANÁLISE =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">07 · Análise de impacto</div>
+  <h2>Indicadores de entrega e alcance</h2>
+  <div class="rule"></div>
+
+  <div class="grid g2" style="margin-bottom:5mm">
+    <div class="card">
+      <h4>Entregas por pilar</h4>
+      <div id="pillarBars"></div>
+    </div>
+    <div class="card">
+      <h4>Prazo de execução das entregas datadas</h4>
+      <div id="leadBars"></div>
+      <p class="note" id="leadNote"></p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:5mm">
+    <h4>Matriz de impacto: pilares × áreas da empresa</h4>
+    <p class="note" style="margin:0 0 2mm">Número de entregas de cada pilar que beneficiam diretamente cada área.</p>
+    <div id="heat"></div>
+  </div>
+
+  <div class="grid g3">
+    <div class="kpi"><div class="n" id="kCollab"></div><div class="t">entregas realizadas em parceria com outras áreas (Marketing, T.I., Comercial)</div></div>
+    <div class="kpi" style="border-top-color:var(--green)"><div class="n">100<small>%</small></div><div class="t">de conclusão no acompanhamento de demandas, sem pendências</div></div>
+    <div class="kpi" style="border-top-color:var(--amber)"><div class="n" id="kAreas"></div><div class="t">áreas da empresa impactadas diretamente pelas entregas</div></div>
+  </div>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>9</b></div>
+</section>
+
+<!-- =============================== 08 VALOR =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">08 · Valor gerado</div>
+  <h2>Antes e depois: o que mudou na operação</h2>
+  <div class="rule"></div>
+
+  <table class="ba" style="margin-bottom:6mm">
+    <thead><tr><th>Dimensão</th><th>Antes</th><th>Depois</th></tr></thead>
+    <tbody>
+      <tr><td>Conformidade regulatória</td><td>Ofícios e normativos sem controle centralizado</td><td>Controles de Ofícios e de Normativos BACEN estruturados</td></tr>
+      <tr><td>Gestão de riscos</td><td>Matriz de riscos manual, em documento estático</td><td>Plataforma com matriz por 5 fatores e análise com IA</td></tr>
+      <tr><td>Visão gerencial das áreas</td><td>Informações dispersas, sem painéis</td><td>Painéis de gestão para Jurídico, Marketing, Compras e RV</td></tr>
+      <tr><td>Comercial / Rede Credenciada</td><td>Prospecção sem funil padronizado</td><td>Funis no Ploomes (prospecção, relacionamento, cancelamento) e metas</td></tr>
+      <tr><td>Campanhas para parceiros</td><td>Envio manual</td><td>Envio automatizado, com piloto de conteúdo via IA</td></tr>
+      <tr><td>Rotina de liderança</td><td>Reuniões sem cadência definida</td><td>Reuniões de líderes em metodologia SCRUM</td></tr>
+      <tr><td>Responsabilidades</td><td>Atribuições informais</td><td>Manuais de responsabilidade (IP e Rede Valorize)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid g2" style="grid-template-columns: 1fr 1fr">
+    <div>
+      <h3 style="margin-top:0">Competências demonstradas</h3>
+      <div id="skills"></div>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Ganhos para o grupo</h3>
+      <ul class="clean">
+        <li><b>Redução de risco regulatório</b> com controles de prazos, normativos e responsabilidades.</li>
+        <li><b>Eficiência operacional</b>: tarefas repetitivas automatizadas e dados centralizados.</li>
+        <li><b>Decisão baseada em dados</b> com painéis e visões gerenciais.</li>
+        <li><b>Receita e retenção</b>: metas, bonificações, canal de corretores e reconquista de clientes.</li>
+        <li><b>Integração entre áreas</b>: Comercial, Marketing, T.I., Jurídico e Compras na mesma cadência.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note" style="margin-top:4mm">Sugestão: para reforçar a defesa, complementar este quadro com números das áreas (ex.: horas economizadas por mês com automações, nº de parceiros ativos na RV, taxa de conversão dos funis no Ploomes).</p>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>10</b></div>
+</section>
+
+<!-- =============================== 09 PRÓXIMOS PASSOS =============================== -->
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="kicker">09 · Próximos passos</div>
+  <h2>Roadmap proposto e evolução de responsabilidades</h2>
+  <div class="rule"></div>
+
+  <div class="grid g3" style="margin-bottom:6mm">
+    <div class="card accent"><h4>Curto prazo · 0–3 meses</h4><ul class="clean"><li>Estender painéis a Reserva de Salas e Controle/Gestão de T.I.</li><li>Indicadores mensais de risco por área na plataforma.</li><li>Medição formal de horas economizadas.</li></ul></div>
+    <div class="card accent" style="border-left-color:var(--green)"><h4>Médio prazo · 3–6 meses</h4><ul class="clean"><li>Painel executivo consolidado para a Diretoria.</li><li>Automação de alertas de prazos regulatórios (SUSEP / BACEN).</li><li>Escalar campanhas com IA para toda a rede.</li></ul></div>
+    <div class="card accent" style="border-left-color:var(--amber)"><h4>Longo prazo · 6–12 meses</h4><ul class="clean"><li>Programa contínuo de controles internos e auditoria.</li><li>Governança de dados e IA no grupo.</li><li>Suporte à operação da Cicllos Pay autorizada.</li></ul></div>
+  </div>
+
+  <h3>Proposta à Diretoria</h3>
+  <p>As entregas apresentadas demonstram uma atuação que <b>já excede o escopo original do cargo</b>: além de riscos e controles internos, a função hoje responde por iniciativas de automação e IA, painéis de gestão de múltiplas áreas e suporte direto à estratégia comercial, em cinco empresas do grupo.</p>
+  <p>Diante disso, proponho à Diretoria a <b>formalização desse escopo ampliado</b>, com a correspondente <b>evolução de cargo e remuneração</b>, de modo a:</p>
+  <ul class="clean" style="margin-bottom:5mm">
+    <li>Reconhecer as responsabilidades já exercidas na prática;</li>
+    <li>Dar mandato formal para conduzir o roadmap de governança, automação e IA;</li>
+    <li>Garantir a continuidade e a escala dos resultados apresentados.</li>
+  </ul>
+
+  <div class="callout">
+    <p class="q">“Construí a base de governança do grupo e a transformei em ferramentas que hoje apoiam a gestão de várias áreas. Meu compromisso é seguir ampliando esse impacto, agora com o mandato adequado.”</p>
+    <p style="margin-top:2mm; font-size:9pt">— João Pedro, Gestão de Riscos e Controles Internos</p>
+  </div>
+
+  <div class="sig">
+    <div><b>João Pedro</b>Gestão de Riscos e Controles Internos</div>
+    <div><b>Diretoria</b>Ciente / Aprovação</div>
+  </div>
+
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b>11</b></div>
+</section>
+
+<!-- =============================== ANEXO =============================== -->
+<template id="annexTpl">
+<section class="page inner">
+  <div class="runhead"><span>Cicllos Seguradora</span><span>Relatório Estratégico de Atividades</span></div>
+  <div class="annex-top"></div>
+  <table class="annex"><thead><tr><th style="width:7%">Nº</th><th>Entrega</th><th style="width:12%">Pilar</th><th style="width:21%">Envolvidos</th><th class="num" style="width:15%">Período</th></tr></thead><tbody></tbody></table>
+  <div class="foot"><span>Cicllos Seguradora · Gestão de Riscos e Controles Internos</span><b></b></div>
+</section>
+</template>
+
+<script>
+const PILLARS = {
+  A: { name: "Automação, IA e Painéis", short: "Automação", color: "#0070C0" },
+  C: { name: "Comercial e Expansão", short: "Comercial", color: "#E8A317" },
+  P: { name: "Processos e Gestão", short: "Processos", color: "#2BA88A" },
+  G: { name: "Governança e Compliance", short: "Governança", color: "#0B2E4F" },
+  M: { name: "Canais Digitais", short: "Digital", color: "#4FA3E0" },
+};
+
+// Registro de demandas: [nº, frente, entrega, pilar, envolvidos, início, fim, dias, áreas]
+const T = [
+  ["1.1","Estruturação — Plano de Negócio (Cicllos Pay)","Realizar base estrutural","G","—","24/11/25","26/11/25",2,["Diretoria"]],
+  ["2.1","Manual e responsabilidade de cada área","Levantar áreas mínimas para IP autorizada (emissora de moeda eletrônica)","G","—","02/12/25","",null,["Diretoria"]],
+  ["4.1","Planilha de Controle de Ofícios","Cicllos Pay","G","—","03/12/25","04/12/25",1,["Jurídico","Diretoria"]],
+  ["5.1","Planilha de Controle de Leis e Normativos","Cicllos Pay — BACEN","G","—","04/12/25","04/12/25",0,["Jurídico","Diretoria"]],
+  ["6.1","Projeto — Rede Valorize 80/20","Mapeamento de parceiros","C","—","19/12/25","22/12/25",3,["Comercial"]],
+  ["7.1","Apresentação — Reuniões","Reuniões periódicas","P","—","12/01/26","12/01/26",0,["Diretoria"]],
+  ["8.1","Landing Page","Reestruturação e melhorias","M","Marketing","09/01/26","16/01/26",7,["Marketing"]],
+  ["9.1","Apresentação — Rede Valorize","Mapeamento de parceiros — Saúde","C","—","15/01/26","16/01/26",1,["Comercial"]],
+  ["10.1","Gestão de agendamento e controle","Agendar reuniões com equipes","P","—","16/01/26","16/01/26",0,["Diretoria"]],
+  ["11.1","Landing Page — Sindvest","Alinhamento entre Time Comercial e Marketing","M","Marketing","20/01/26","21/01/26",1,["Marketing","Comercial"]],
+  ["12.1","Agendar reunião (Seguradora)","Equipe Seguradora","P","—","23/01/26","23/01/26",0,["Diretoria"]],
+  ["13.1","Organizar fluxo (Comercial)","Rede Valorize — criação de fluxograma","P","—","23/01/26","23/01/26",0,["Comercial"]],
+  ["14.1","Relatório Comercial RV + Saúde","Resultados e prospecções da semana","C","—","29/01/26","30/01/26",1,["Comercial","Diretoria"]],
+  ["15.1","Rede Valorize (Saúde) — Araguari","Script de comunicação com parceiros (Rede Saúde)","C","—","","",null,["Comercial"]],
+  ["15.2","Rede Valorize (Saúde) — Araguari","Verificar aditivo contratual dos parceiros","C","—","","",null,["Comercial","Jurídico"]],
+  ["15.3","Rede Valorize (Saúde) — Araguari","Protocolo de Marketing (divulgação dos parceiros)","C","—","","",null,["Comercial","Marketing"]],
+  ["15.5","Rede Valorize (Saúde) — Araguari","Verificar questões contratuais dos parceiros","C","—","","",null,["Comercial","Jurídico"]],
+  ["15.6","Rede Valorize (Saúde) — Araguari","Análise dos dados e apresentação","C","—","","",null,["Comercial","Diretoria"]],
+  ["16.1","Reuniões — Metodologia SCRUM","Reuniões de líderes","P","—","","",null,["Diretoria"]],
+  ["16.2","Reuniões — Metodologia SCRUM","Acompanhamento de demandas (Consultoria Marketing)","P","—","","",null,["Marketing"]],
+  ["17.1","Projeto IA — RV + Saúde","Estrutura e pontos a serem automatizados","A","—","","",null,["Comercial","T.I."]],
+  ["17.2","Projeto IA — RV + Saúde","Automatizar envio de campanhas (parceiros)","A","—","","",null,["Comercial","Marketing"]],
+  ["18.1","Meta comercial","Estrutura de acompanhamento de meta comercial","C","—","","",null,["Comercial","Diretoria"]],
+  ["18.2","Meta comercial","Controle de resultados (bonificações)","C","—","","",null,["Comercial"]],
+  ["19.1","Responsabilidades / Atividades RV","Manual de responsabilidade da Rede Valorize (credenciada)","G","—","","",null,["Comercial","Jurídico"]],
+  ["20.0","Fluxo Rede Credenciada (Ploomes)","Fluxo de prospecção no Ploomes","A","Alisson / Asziriel","","",null,["Comercial"]],
+  ["20.1","Fluxo Rede Credenciada (Ploomes)","Funil de relacionamento (manutenção de parceiros)","A","Alisson / Asziriel","","",null,["Comercial"]],
+  ["20.2","Fluxo Rede Credenciada (Ploomes)","Funil de cancelamento dos parceiros","A","Alisson / Asziriel","","",null,["Comercial"]],
+  ["20.3","Fluxo Rede Credenciada (Ploomes)","Relatório / visões gerenciais — Rede Credenciada","A","Asziriel","","",null,["Comercial","Diretoria"]],
+  ["21.1","Teste IA (Campanhas Parceiros)","Teste piloto (mensagens + post)","A","Guilherme (T.I.)","05/05/26","06/05/26",1,["T.I.","Marketing"]],
+  ["21.2","Teste IA (Campanhas Parceiros)","Envio de campanha aos parceiros (Saúde e Comércio)","A","Guilherme (T.I.)","07/05/26","07/05/26",0,["Comercial","Marketing"]],
+  ["22.1","Site — Rede Valorize","Subir para ambiente de produção","M","Guilherme (T.I.)","29/04/26","30/04/26",1,["T.I.","Marketing"]],
+  ["22.2","Site — Rede Valorize","Configuração formulário + RD Station","M","Guilherme (T.I.) / Rafael","06/05/26","06/05/26",0,["Marketing","Comercial"]],
+  ["23.1","Relatório de Metas — Comercial RV (Ploomes)","Visões gerenciais dentro do sistema","A","Asziriel","","",null,["Comercial","Diretoria"]],
+  ["24.1","Projeto Reconquista de Clientes (Plano Pirâmide)","Estruturar projeto e análises","C","—","07/05/26","07/05/26",0,["Comercial"]],
+  ["25.1","Mapeamento Complexo Pirâmide","Procedimento de manutenção do complexo","P","—","","",null,["Compras"]],
+  ["26.1","Material de Apoio — Corretores","Material de apoio para corretores externos","C","—","","",null,["Comercial","Marketing"]],
+  ["27.1","Mapeamento da Telemedicina","Protocolo de atendimento (online e presencial)","P","—","","",null,["Comercial"]],
+  ["28.1","Canal Corretor + Saúde","Estudo + apresentação canal corretor","C","—","","",null,["Comercial","Diretoria"]],
+  ["29.1","Apresentação — Autorização IP","Realizar apresentação","G","—","","",null,["Diretoria"]],
+  ["30.1","Dashboard RV","Automação e dashboard da Rede Valorize","A","—","","",null,["Comercial","Diretoria"]],
+  ["31.1","Painel de Gestão Jurídico","Painel de gestão do departamento jurídico","A","—","","",null,["Jurídico"]],
+  ["32.1","Painel de Gestão de Marketing","Painel de gestão do departamento de Marketing","A","—","","",null,["Marketing"]],
+  ["33.1","Painel de Gestão de Compras / automação","Painel de gestão e controle de Compras","A","—","","",null,["Compras"]],
+];
+
+const count = k => T.filter(t => t[3] === k).length;
+const order = ["A","C","P","G","M"];
+const total = T.length;
+const pct = n => Math.round(n / total * 100);
+const frentes = new Set(T.map(t => t[0].split(".")[0])).size;
+const collab = T.filter(t => t[4] !== "—").length;
+const AREAS = ["Diretoria","Comercial","Marketing","Jurídico","Compras","T.I."];
+
+document.querySelectorAll("[data-count]").forEach(el => el.textContent = count(el.dataset.count));
+document.getElementById("pctAC").textContent = pct(count("A") + count("C")) + "%";
+document.getElementById("kCollab").textContent = collab;
+document.getElementById("kAreas").textContent = AREAS.length;
+
+// KPIs
+const kpis = [
+  [total, "", "entregas concluídas no período (nov/25 – out/26)"],
+  [frentes, "", "frentes de trabalho estruturadas"],
+  [100, "%", "de conclusão — nenhuma demanda em aberto"],
+  [5, "", "empresas do grupo atendidas"],
+  [6, "", "áreas cobertas pelo Projeto IA de Backoffice e Automação"],
+  [5, "", "painéis de gestão entregues (Jurídico, Marketing, Compras, RV, Comercial RV)"],
+];
+document.getElementById("kpis").innerHTML = kpis.map((k, i) =>
+  `<div class="kpi" style="border-top-color:${["#0070C0","#0B2E4F","#2BA88A","#E8A317","#4FA3E0","#0070C0"][i]}"><div class="n">${k[0]}<small>${k[1]}</small></div><div class="t">${k[2]}</div></div>`).join("");
+
+// Donut
+(function () {
+  const R = 30, r = 19, cx = 36, cy = 36;
+  let a0 = -Math.PI / 2, s = "";
+  order.forEach(k => {
+    const v = count(k), a1 = a0 + v / total * Math.PI * 2, gap = 0.025;
+    const p = (a, rad) => [cx + rad * Math.cos(a), cy + rad * Math.sin(a)];
+    const [x0, y0] = p(a0 + gap, R), [x1, y1] = p(a1 - gap, R), [x2, y2] = p(a1 - gap, r), [x3, y3] = p(a0 + gap, r);
+    const L = (a1 - a0) > Math.PI ? 1 : 0;
+    s += `<path d="M${x0},${y0} A${R},${R} 0 ${L} 1 ${x1},${y1} L${x2},${y2} A${r},${r} 0 ${L} 0 ${x3},${y3} Z" fill="${PILLARS[k].color}"/>`;
+    a0 = a1;
+  });
+  s += `<text x="36" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#0B2E4F">${total}</text><text x="36" y="43" text-anchor="middle" font-size="4" fill="#6B7280">entregas</text>`;
+  document.getElementById("donut").innerHTML = `<svg width="44mm" height="44mm" viewBox="0 0 72 72">${s}</svg>`;
+  document.getElementById("donutLegend").innerHTML = order.map(k =>
+    `<div class="row"><span class="sw" style="background:${PILLARS[k].color}"></span>${PILLARS[k].name}<b>${count(k)} · ${pct(count(k))}%</b></div>`).join("");
+})();
+
+// Alcance
+document.getElementById("reach").innerHTML = [
+  ["5", "empresas do grupo"], ["6", "áreas impactadas"], [String(collab), "entregas em parceria"], [String(frentes), "frentes de trabalho"]
+].map(([n, t], i) => `<div class="kpi" style="border-top-color:${["#0B2E4F","#0070C0","#4FA3E0","#2BA88A"][i]}"><div class="n">${n}</div><div class="t">${t}</div></div>`).join("");
+
+// Barras horizontais genéricas
+function hbars(rows, max, opts = {}) {
+  const W = opts.W || 260, fs = opts.fs || 10, rowH = opts.rowH || 26, labelW = opts.labelW || 110, H = rows.length * rowH + 4;
+  let s = "";
+  rows.forEach((row, i) => {
+    const [label, v, color] = row, y = i * rowH + 3, w = (W - labelW - 30) * v / max;
+    s += `<text x="${labelW - 6}" y="${y + rowH / 2 + 1}" text-anchor="end" dominant-baseline="middle" font-size="${fs}" fill="#2B2F36">${label}</text>`;
+    s += `<rect x="${labelW}" y="${y + 3}" width="${Math.max(w, 1.5)}" height="${rowH - 8}" rx="2" fill="${color}"/>`;
+    s += `<text x="${labelW + w + 5}" y="${y + rowH / 2 + 1}" dominant-baseline="middle" font-size="${fs}" font-weight="700" fill="#0B2E4F">${opts.fmt ? opts.fmt(v) : v}</text>`;
+  });
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${s}</svg>`;
+}
+
+const sorted = [...order].sort((a, b) => count(b) - count(a));
+document.getElementById("pillarBars").innerHTML = hbars(sorted.map(k => [PILLARS[k].short, count(k), PILLARS[k].color]), Math.max(...order.map(count)), { labelW: 76, rowH: 32 });
+
+// Prazo das entregas datadas
+(function () {
+  const dated = T.filter(t => t[7] !== null);
+  const b = [["Mesmo dia", d => d === 0], ["1 dia", d => d === 1], ["2–3 dias", d => d >= 2 && d <= 3], ["4+ dias", d => d >= 4]];
+  const rows = b.map(([l, f], i) => [l, dated.filter(t => f(t[7])).length, ["#2BA88A","#0070C0","#4FA3E0","#E8A317"][i]]);
+  document.getElementById("leadBars").innerHTML = hbars(rows, Math.max(...rows.map(r => r[1])), { labelW: 76, rowH: 32 });
+  const fast = dated.filter(t => t[7] <= 1).length;
+  const avg = dated.reduce((s, t) => s + t[7], 0) / dated.length;
+  document.getElementById("leadNote").innerHTML = `${fast} de ${dated.length} entregas com datas registradas (${Math.round(fast / dated.length * 100)}%) foram concluídas em até 1 dia. Prazo médio: ${avg.toFixed(1).replace(".", ",")} dia.`;
+})();
+
+// Composição comercial
+(function () {
+  const groups = [
+    ["Rede Saúde — Araguari", t => t[0].startsWith("15.")],
+    ["Mapeamento de parceiros", t => ["6.1","9.1"].includes(t[0])],
+    ["Metas e bonificações", t => t[0].startsWith("18.")],
+    ["Canal corretor", t => ["26.1","28.1"].includes(t[0])],
+    ["Relatórios comerciais", t => t[0] === "14.1"],
+    ["Reconquista de clientes", t => t[0] === "24.1"],
+  ];
+  const rows = groups.map(([l, f]) => [l, T.filter(f).length, "#E8A317"]);
+  document.getElementById("comBars").innerHTML = hbars(rows, Math.max(...rows.map(r => r[1])), { W: 600, labelW: 170, rowH: 30, fs: 11 });
+})();
+
+// Matriz de impacto (heatmap)
+(function () {
+  let h = `<table class="heat"><thead><tr><th>Pilar</th>${AREAS.map(a => `<th>${a}</th>`).join("")}</tr></thead><tbody>`;
+  const all = [];
+  order.forEach(k => AREAS.forEach(a => all.push(T.filter(t => t[3] === k && t[8].includes(a)).length)));
+  const mx = Math.max(...all);
+  order.forEach(k => {
+    h += `<tr><td>${PILLARS[k].name}</td>`;
+    AREAS.forEach(a => {
+      const v = T.filter(t => t[3] === k && t[8].includes(a)).length;
+      const alpha = v ? 0.14 + 0.86 * v / mx : 0;
+      const bg = v ? `rgba(0,112,192,${alpha.toFixed(2)})` : "#F5F7FA";
+      h += `<td style="background:${bg}; color:${alpha > .55 ? "#fff" : "#0B2E4F"}; font-weight:${v ? 700 : 400}">${v || "·"}</td>`;
+    });
+    h += `</tr>`;
+  });
+  document.getElementById("heat").innerHTML = h + "</tbody></table>";
+})();
+
+// Matriz de riscos 5x5
+(function () {
+  const risks = [["OP-001", 3, 5], ["LGPD-02", 2, 5], ["TEC-05", 2, 4], ["FIN-01", 4, 2], ["REG-03", 3, 4]];
+  const c = 30, ox = 22, oy = 4;
+  const col = s => s >= 15 ? "#C0392B" : s >= 10 ? "#E67E22" : s >= 5 ? "#F1C40F" : "#2BA88A";
+  let s = "";
+  for (let p = 1; p <= 5; p++) for (let i = 1; i <= 5; i++) {
+    s += `<rect x="${ox + (p - 1) * c}" y="${oy + (5 - i) * c}" width="${c - 2}" height="${c - 2}" rx="2" fill="${col(p * i)}" opacity=".28"/>`;
+  }
+  const occ = {};
+  risks.forEach(([code, p, i]) => {
+    const key = p + "-" + i; occ[key] = (occ[key] || 0) + 1;
+    const x = ox + (p - 1) * c + (c - 2) / 2, y = oy + (5 - i) * c + 9 + (occ[key] - 1) * 11;
+    s += `<rect x="${x - 13.5}" y="${y - 4.5}" width="27" height="9" rx="4.5" fill="#0B2E4F"/><text x="${x}" y="${y + .3}" text-anchor="middle" dominant-baseline="middle" font-size="5.6" font-weight="700" fill="#fff">${code}</text>`;
+  });
+  for (let k = 1; k <= 5; k++) {
+    s += `<text x="${ox + (k - 1) * c + 14}" y="${oy + 5 * c + 8}" text-anchor="middle" font-size="7" fill="#6B7280">${k}</text>`;
+    s += `<text x="${ox - 5}" y="${oy + (5 - k) * c + 15}" text-anchor="end" dominant-baseline="middle" font-size="7" fill="#6B7280">${k}</text>`;
+  }
+  s += `<text x="${ox + 2.5 * c}" y="${oy + 5 * c + 19}" text-anchor="middle" font-size="7" font-weight="600" fill="#0B2E4F">Probabilidade</text>`;
+  s += `<text transform="translate(7 ${oy + 2.5 * c}) rotate(-90)" text-anchor="middle" font-size="7" font-weight="600" fill="#0B2E4F">Impacto</text>`;
+  document.getElementById("matrix").innerHTML = `<svg width="100%" viewBox="0 0 ${ox + 5 * c + 4} ${oy + 5 * c + 24}">${s}</svg>`;
+})();
+
+// Ecossistema Backoffice e Automação
+(function () {
+  const W = 480, H = 192, cx = W / 2, cy = 88;
+  const nodes = [
+    ["Reserva de Sala", "(Reuniões)", "#4FA3E0", false],
+    ["Marketing", "Painel de gestão", "#0070C0", true],
+    ["Jurídico", "Painel de gestão", "#0070C0", true],
+    ["Controle /", "Gestão T.I.", "#4FA3E0", false],
+    ["Compras", "Painel + automação", "#0070C0", true],
+    ["Comercial RV", "Dashboard + Ploomes", "#0070C0", true],
+  ];
+  const pos = [[70, 32], [70, 88], [70, 144], [410, 32], [410, 88], [410, 144]];
+  let s = "";
+  pos.forEach(([x, y]) => s += `<path d="M${x < cx ? x + 62 : x - 62},${y} C${(x + cx) / 2},${y} ${(x + cx) / 2},${cy} ${x < cx ? cx - 78 : cx + 78},${cy}" fill="none" stroke="#B9D3EA" stroke-width="1.5"/>`);
+  s += `<rect x="${cx - 78}" y="${cy - 34}" width="156" height="68" rx="10" fill="#0B2E4F"/>`;
+  s += `<text x="${cx}" y="${cy - 13}" text-anchor="middle" font-size="8" fill="#9CC3E6" letter-spacing="1">PROJETO IA</text>`;
+  s += `<text x="${cx}" y="${cy + 2}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Grupo Pirâmide Cicllos</text>`;
+  s += `<text x="${cx}" y="${cy + 17}" text-anchor="middle" font-size="8.5" fill="#DCE8F4">Backoffice e Automação</text>`;
+  nodes.forEach(([a, b, color, done], i) => {
+    const [x, y] = pos[i];
+    s += `<rect x="${x - 62}" y="${y - 19}" width="124" height="38" rx="7" fill="#fff" stroke="${color}" stroke-width="1.6"/>`;
+    s += `<text x="${x}" y="${y - 3}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0B2E4F">${a}</text>`;
+    s += `<text x="${x}" y="${y + 10}" text-anchor="middle" font-size="7.5" fill="#6B7280">${b}</text>`;
+  });
+  s += `<rect x="${cx - 90}" y="${H - 12}" width="8" height="8" rx="2" fill="#0070C0"/><text x="${cx - 78}" y="${H - 5}" font-size="7.5" fill="#6B7280">entregue</text>`;
+  s += `<rect x="${cx + 10}" y="${H - 12}" width="8" height="8" rx="2" fill="#4FA3E0"/><text x="${cx + 22}" y="${H - 5}" font-size="7.5" fill="#6B7280">estruturado / em expansão</text>`;
+  document.getElementById("eco").innerHTML = `<svg width="100%" viewBox="0 0 ${W} ${H}">${s}</svg>`;
+})();
+
+// Competências
+(function () {
+  const skills = [
+    ["Gestão de riscos e compliance", 5], ["Automação e IA aplicada", 5], ["Visão de negócio / comercial", 4],
+    ["Gestão de projetos (SCRUM)", 4], ["Análise de dados e BI", 4], ["Articulação entre áreas", 5],
+  ];
+  document.getElementById("skills").innerHTML = skills.map(([s, n]) =>
+    `<div style="display:flex; align-items:center; gap:3mm; margin-bottom:2.2mm; font-size:9pt"><span style="flex:1">${s}</span>${[1,2,3,4,5].map(i => `<span style="width:6mm; height:2.4mm; border-radius:1mm; background:${i <= n ? "#0070C0" : "#E3E8EF"}"></span>`).join("")}</div>`).join("") +
+    `<p class="note">Autoavaliação, com base nas entregas registradas.</p>`;
+})();
+
+// Anexo — paginação automática
+(function () {
+  const rows = [];
+  let last = "";
+  T.forEach(t => {
+    const f = t[0].split(".")[0];
+    if (f !== last) { rows.push({ grp: true, html: `<tr class="grp"><td>${f}</td><td colspan="4">${t[1]}</td></tr>` }); last = f; }
+    const per = t[5] ? (t[6] && t[6] !== t[5] ? `${t[5]} – ${t[6]}` : t[5]) : "—";
+    rows.push({ html: `<tr><td>${t[0]}</td><td>${t[2]} <span class="ok">✓</span></td><td><span class="tag" style="background:${PILLARS[t[3]].color}">${PILLARS[t[3]].short}</span></td><td>${t[4] === "—" ? "João Pedro" : "João Pedro / " + t[4]}</td><td class="num">${per}</td></tr>` });
+  });
+  const tpl = document.getElementById("annexTpl");
+  let pageNo = document.querySelectorAll(".page").length, first = true, i = 0;
+  while (i < rows.length) {
+    const pg = tpl.content.firstElementChild.cloneNode(true);
+    pg.querySelector(".annex-top").innerHTML = first
+      ? `<div class="kicker">Anexo</div><h2 style="font-size:15pt">Registro completo das entregas</h2><p class="note" style="margin:-2mm 0 3mm">Fonte: Acompanhamento de Demandas/Entregáveis — Gestão de Riscos e Controles Internos. Todas as entregas com 100% de conclusão.</p>`
+      : `<div class="kicker">Anexo (continuação)</div>`;
+    pg.querySelector(".foot b").textContent = ++pageNo;
+    document.body.insertBefore(pg, tpl);
+    const body = pg.querySelector("tbody"), limit = pg.querySelector(".foot").getBoundingClientRect().top - 12;
+    let added = 0;
+    while (i < rows.length) {
+      body.insertAdjacentHTML("beforeend", rows[i].html);
+      if (body.getBoundingClientRect().bottom > limit && added > 0) { body.lastElementChild.remove(); break; }
+      i++; added++;
+    }
+    // não deixar cabeçalho de frente órfão no fim da página
+    if (i < rows.length && rows[i - 1].grp) { body.lastElementChild.remove(); i--; }
+    first = false;
+  }
+  document.getElementById("annexPages").textContent = `12–${pageNo}`;
+})();
+</script>
+</body>
+</html>
